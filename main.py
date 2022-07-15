@@ -17,9 +17,9 @@ import pickle
 def get_args():
     parser = argparse.ArgumentParser(description='Args for graph predition')
     parser.add_argument('-seed', type=int, default=14, help='seed')
-    parser.add_argument('-data', default='MUTAG', help='data folder name')
+    parser.add_argument('-data', default='PTC_MR', help='data folder name')
     parser.add_argument('-num_epochs', type=int, default=2000, help='epochs')
-    parser.add_argument('-batch_size', type=int, default=188, help='batch size')
+    parser.add_argument('-batch_size', type=int, default=344, help='batch size')
     parser.add_argument('-lr', type=float, default=0.05, help='learning rate')
     parser.add_argument('-w_d', type=float, default=0.0005, help='weight decay')
     parser.add_argument('-l_num', type=int, default=4, help='layer num')
@@ -178,7 +178,7 @@ def main():
         number_of_graphs = 4110
     elif args.data == 'Mutagenicity':
         number_of_graphs = 4337
-    with open('preprocessed_datasets/' + args.data, 'rb') as input_file:
+    with open('preprocessed_datasets/' + args.data + '-no', 'rb') as input_file:
         g = pickle.load(input_file)
     num_cliques = int(g.number_of_nodes()) - number_of_graphs
     # print(num_cliques)
