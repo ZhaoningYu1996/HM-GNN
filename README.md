@@ -4,10 +4,10 @@ This is an official PyTorch implementation of the experiments in the following p
 
 ## Requirements
 ```
-pytorch              1.9.0
-rdkit-pypi           2021.9.2
-ogb                  1.3.1
-dgl                  0.6.1
+pytorch                       1.9.0
+rdkit-pypi                    2021.9.2
+ogb                           1.3.1
+dgl                           0.6.1
 networkx
 ```
 ## Part 1: Heterogeneous Motif Graph Construction
