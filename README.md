@@ -16,7 +16,20 @@ Change the parameter of drop_node() function in the ops.py to drop noises in the
 Run ```python preprocess_hiv.py``` and ```python preprocess_pcba.py``` to construct HM-graph for ogbg-molhiv and ogbg-pcba dataset.\
 For ogbg-pcba dataset, because there are 11 graphs do not have motifs, you need to substract 11 from self.num_cliques.
 
-## Part 2: Reproduce the results
+## Part 2: Training and evaluation
 Run ```python main.py``` for TUDataset.\
 Run ```python main_ogbg_molhiv.py``` for ogbg-molhiv.\
 Run ```python main_molpcba.py``` for ogbg-pcba.
+
+## Cite
+If you find this repo or paper to be useful, please cite our paper.
+```
+@inproceedings{yu2022molecular,
+  title={Molecular Representation Learning via Heterogeneous Motif Graph Neural Networks},
+  author={Yu, Zhaoning and Gao, Hongyang},
+  booktitle={International Conference on Machine Learning},
+  pages={25581--25594},
+  year={2022},
+  organization={PMLR}
+}
+```
