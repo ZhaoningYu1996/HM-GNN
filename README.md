@@ -1,6 +1,7 @@
 # Molecular Representation Learning via Heterogeneous Motif Graph Neural Networks
 This is an official PyTorch implementation of the experiments in the following paper:\
-<b>Zhaoning Yu</b>, Hongyang Gao. [Molecular Representation Learning via Heterogeneous Motif Graph Neural Networks](https://proceedings.mlr.press/v162/yu22a.html) ICML 2022
+[Molecular Representation Learning via Heterogeneous Motif Graph Neural Networks](https://proceedings.mlr.press/v162/yu22a.html) (ICML 2022)
+<b>Zhaoning Yu</b>, Hongyang Gao
 
 ## Requirements
 ```
