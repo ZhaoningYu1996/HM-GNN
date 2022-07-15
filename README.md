@@ -11,12 +11,12 @@ dgl                           0.6.1
 networkx
 ```
 ## Part 1: Heterogeneous Motif Graph Construction
-Run python preprocess.py to construct HM-graph for TUDataset.\
+Run ```python preprocess.py``` to construct HM-graph for TUDataset.\
 Change the parameter of drop_node() function in the ops.py to drop noises in the motif dictionary.\
-Run python preprocess_hiv.py and python preprocess_pcba.py to construct HM-graph for ogbg-molhiv and ogbg-pcba dataset.\
+Run ```python preprocess_hiv.py``` and ```python preprocess_pcba.py``` to construct HM-graph for ogbg-molhiv and ogbg-pcba dataset.\
 For ogbg-pcba dataset, because there are 11 graphs do not have motifs, you need to substract 11 from self.num_cliques.
 
 ## Part 2: Reproduce the results
-Run python main.py for TUDataset.\
-Run python main_ogbg_molhiv.py for ogbg-molhiv.\
-Run python main_molpcba.py for ogbg-pcba.
+Run ```python main.py``` for TUDataset.\
+Run ```python main_ogbg_molhiv.py``` for ogbg-molhiv.\
+Run ```python main_molpcba.py``` for ogbg-pcba.
