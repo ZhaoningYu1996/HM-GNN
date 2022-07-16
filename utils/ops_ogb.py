@@ -289,7 +289,7 @@ class GenGraph(object):
                 rank_list.append(self.node_count[v - len(self.data.g_list)] / len(self.data.g_list))
                 node_list.append(v)
         sorted_list = sorted(rank_list)
-        a = int(len(sorted_list) * 0.8)
+        a = int(len(sorted_list) * 0.9)
         threshold_num = sorted_list[a-1]
         for i in range(len(rank_list)):
             if rank_list[i] > threshold_num:

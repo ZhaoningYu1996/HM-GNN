@@ -14,7 +14,7 @@ from utils.ops import load_data
 
 def get_args():
     parser = argparse.ArgumentParser(description='Args for graph predition')
-    parser.add_argument('-data', default='NCI1', help='data folder name')
+    parser.add_argument('-data', default='PROTEINS', help='data folder name')
     parser.add_argument('-edge_weight', type=bool, default=False, help='If data have edge labels')
     args, _ = parser.parse_known_args()
     return args
@@ -85,5 +85,5 @@ norm[torch.isinf(norm)] = 0
 g_dgl.ndata['norm'] = norm.unsqueeze(1)
 print(g_dgl.edges()[0].size())
 
-with open('NCI1', 'wb') as save_file:
+with open('preprocessed_datasets/' + args.data, 'wb') as save_file:
     pickle.dump(g_dgl, save_file)
