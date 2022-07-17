@@ -17,9 +17,9 @@ import pickle
 def get_args():
     parser = argparse.ArgumentParser(description='Args for graph predition')
     parser.add_argument('-seed', type=int, default=14, help='seed')
-    parser.add_argument('-data', default='NCI1', help='data folder name')
+    parser.add_argument('-data', default='PROTEINS', help='data folder name')
     parser.add_argument('-num_epochs', type=int, default=2000, help='epochs')
-    parser.add_argument('-batch_size', type=int, default=4110, help='batch size')
+    parser.add_argument('-batch_size', type=int, default=1113, help='batch size')
     parser.add_argument('-lr', type=float, default=0.05, help='learning rate')
     parser.add_argument('-w_d', type=float, default=0.0005, help='weight decay')
     parser.add_argument('-l_num', type=int, default=4, help='layer num')

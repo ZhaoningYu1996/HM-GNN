@@ -64,8 +64,8 @@ for i in range(len(data.graph_labels)):
     #     graph_labels.append(0)
     # else:
     #     graph_labels.append(1)
-    # graph_labels.append(data.graph_labels[i] - 1)
-    graph_labels.append(data.graph_labels[i])
+    graph_labels.append(data.graph_labels[i] - 1)
+    # graph_labels.append(data.graph_labels[i])
 graph_labels = torch.tensor(graph_labels, dtype=torch.long)
 features, labels = gen_features_labels(graph_labels, g_dgl, graph.num_cliques)
 
