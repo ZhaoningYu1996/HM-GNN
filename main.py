@@ -16,17 +16,17 @@ import pickle
 
 def get_args():
     parser = argparse.ArgumentParser(description='Args for graph predition')
-    parser.add_argument('-seed', type=int, default=14, help='seed')
-    parser.add_argument('-data', default='PROTEINS', help='data folder name')
+    parser.add_argument('-seed', type=int, default=2, help='seed')
+    parser.add_argument('-data', default='NCI1', help='data folder name')
     parser.add_argument('-num_epochs', type=int, default=2000, help='epochs')
-    parser.add_argument('-batch_size', type=int, default=1113, help='batch size')
-    parser.add_argument('-lr', type=float, default=0.05, help='learning rate')
+    parser.add_argument('-batch_size', type=int, default=4110, help='batch size')
+    parser.add_argument('-lr', type=float, default=0.01, help='learning rate')
     parser.add_argument('-w_d', type=float, default=0.0005, help='weight decay')
     parser.add_argument('-l_num', type=int, default=4, help='layer num')
     parser.add_argument('-h_dim', type=int, default=16, help='hidden dim')
-    parser.add_argument('-drop_n', type=float, default=0.2, help='drop net')
-    parser.add_argument('-drop_c', type=float, default=0.2, help='drop output')
-    parser.add_argument('-device', type=int, default=1, help='device')
+    parser.add_argument('-drop_n', type=float, default=0.5, help='drop net')
+    parser.add_argument('-drop_c', type=float, default=0.5, help='drop output')
+    parser.add_argument('-device', type=int, default=0, help='device')
     parser.add_argument('--degree_as_tag', action="store_true",
                         help='let the input node features be the degree of nodes (heuristics for unlabeled graph)')
     parser.add_argument(
@@ -201,7 +201,7 @@ def main():
     if torch.cuda.is_available():
         torch.cuda.manual_seed(args.seed)
         torch.backends.cudnn.benchmark = False
-        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.deterministic = False
     train_idx, valid_idx = sep_data(labels[:number_of_graphs], args.seed)
     print(valid_idx)
     val_acc = []

@@ -15,7 +15,7 @@ class GraphCNN(nn.Module):
         super(GraphCNN, self).__init__()
 
         self.final_dropout = final_dropout
-        self.device = torch.device('cuda:1')
+        self.device = torch.device('cuda:0')
         self.num_layers = num_layers
         self.graph_pooling_type = graph_pooling_type
         self.neighbor_pooling_type = neighbor_pooling_type
@@ -189,7 +189,7 @@ class GraphCNNode(nn.Module):
         super(GraphCNNode, self).__init__()
 
         self.final_dropout = final_dropout
-        self.device = torch.device('cuda:1')
+        self.device = torch.device('cuda:0')
         self.num_layers = num_layers
         self.graph_pooling_type = graph_pooling_type
         self.neighbor_pooling_type = neighbor_pooling_type

@@ -148,7 +148,7 @@ class TwoGINTorch(nn.Module):
                  output_dim, final_dropout, learn_eps,
                  neighbor_pooling_type, graph_pooling_type):
         super(TwoGINTorch, self).__init__()
-        self.device = torch.device('cuda:1')
+        self.device = torch.device('cuda:0')
         self.hidden_dim = hidden_dim
         self.graphcnn = GraphCNN(5, num_mlp_layers, pre_input_dim, 64, 64, 0.5, learn_eps, graph_pooling_type,
                                  neighbor_pooling_type, self.device).to(self.device)
@@ -159,7 +159,7 @@ class TwoGIN(nn.Module):
                  output_dim, final_dropout, dropout_0, learn_eps,
                  neighbor_pooling_type, graph_pooling_type):
         super(TwoGIN, self).__init__()
-        self.device = torch.device('cuda:1')
+        self.device = torch.device('cuda:0')
         self.hidden_dim = hidden_dim
         self.gin = StochasticGIN(num_layers, num_mlp_layers, input_dim, hidden_dim,
                  output_dim, final_dropout, learn_eps,
@@ -179,7 +179,7 @@ class ThreeGIN(nn.Module):
                  output_dim, final_dropout, dropout_0, learn_eps,
                  neighbor_pooling_type, graph_pooling_type):
         super(ThreeGIN, self).__init__()
-        self.device = torch.device('cuda:1')
+        self.device = torch.device('cuda:0')
         self.hidden_dim = hidden_dim
         self.gin1 = GIN(num_layers, num_mlp_layers, input_dim, hidden_dim,
                  output_dim, final_dropout, learn_eps,

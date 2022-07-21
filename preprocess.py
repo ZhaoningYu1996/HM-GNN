@@ -14,7 +14,7 @@ from utils.ops import load_data
 
 def get_args():
     parser = argparse.ArgumentParser(description='Args for graph predition')
-    parser.add_argument('-data', default='PROTEINS', help='data folder name')
+    parser.add_argument('-data', default='NCI1', help='data folder name')
     parser.add_argument('-edge_weight', type=bool, default=False, help='If data have edge labels')
     args, _ = parser.parse_known_args()
     return args
@@ -64,8 +64,8 @@ for i in range(len(data.graph_labels)):
     #     graph_labels.append(0)
     # else:
     #     graph_labels.append(1)
-    graph_labels.append(data.graph_labels[i] - 1)
-    # graph_labels.append(data.graph_labels[i])
+    # graph_labels.append(data.graph_labels[i] - 1)
+    graph_labels.append(data.graph_labels[i])
 graph_labels = torch.tensor(graph_labels, dtype=torch.long)
 features, labels = gen_features_labels(graph_labels, g_dgl, graph.num_cliques)
 
