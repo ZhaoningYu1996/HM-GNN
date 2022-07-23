@@ -21,4 +21,4 @@ The Best val accuracy is 0.9625730994152046, the std is 0.05657724735648107, the
 Batch size: 188. Learning rate: 0.05. Hidden dim: 16. Dropout net: 0.2. Dropout graph: 0.2 
 The Best val accuracy is 0.9628654970760232, the std is 0.0558548417416682, the seed is 109.   
 Batch size: 188. Learning rate: 0.05. Hidden dim: 16. Dropout net: 0.2. Dropout graph: 0.2 
-The Best val accuracy is 0.9625730994152046, the std is 0.03583246874892293, the seed is 109.  
+The Best val accuracy is 0.9625730994152046, the std is 0.03583246874892293, the seed is 109.
