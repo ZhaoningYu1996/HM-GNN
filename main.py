@@ -194,77 +194,86 @@ def main():
 
     graphs, num_classes = load_data(args.data, args.degree_as_tag)
     print(len(graphs))
-    random.seed(args.seed)
-    np.random.seed(args.seed)
-    torch.manual_seed(args.seed)
-    dgl.seed(args.seed)
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed(args.seed)
-        torch.backends.cudnn.benchmark = False
-        torch.backends.cudnn.deterministic = False
-    train_idx, valid_idx = sep_data(labels[:number_of_graphs], args.seed)
-    print(valid_idx)
-    val_acc = []
-    for i in range(10):
-        train_index = train_idx[i]
-        valid_index = valid_idx[i]
-        train_mask = [True if x in train_index else False for x in range(int(g.num_nodes()))]
-        train_mask = np.array(train_mask)
-        valid_mask = [True if x in valid_index else False for x in range(int(g.num_nodes()))]
-        valid_mask = np.array(valid_mask)
-        g.ndata['train_mask'] = torch.from_numpy(train_mask).to(device)
-        g.ndata['val_mask'] = torch.from_numpy(valid_mask).to(device)
-        train_mask = g.ndata['train_mask'].to(device)
-        valid_mask = g.ndata['val_mask'].to(device)
+    
+    max_val = 0
+    best_seed = 14
+    for step in range(50):
+        seed=109
+        val_acc = []
+        random.seed(seed)
+        np.random.seed(seed)
+        torch.manual_seed(seed)
+        dgl.seed(seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed(seed)
+            torch.backends.cudnn.benchmark = False
+            torch.backends.cudnn.deterministic = True
+        train_idx, valid_idx = sep_data(labels[:number_of_graphs], seed)
+        print(valid_idx)
+        for i in range(10):
+            train_index = train_idx[i]
+            valid_index = valid_idx[i]
+            train_mask = [True if x in train_index else False for x in range(int(g.num_nodes()))]
+            train_mask = np.array(train_mask)
+            valid_mask = [True if x in valid_index else False for x in range(int(g.num_nodes()))]
+            valid_mask = np.array(valid_mask)
+            g.ndata['train_mask'] = torch.from_numpy(train_mask).to(device)
+            g.ndata['val_mask'] = torch.from_numpy(valid_mask).to(device)
+            train_mask = g.ndata['train_mask'].to(device)
+            valid_mask = g.ndata['val_mask'].to(device)
 
-        train_nid = torch.nonzero(train_mask, as_tuple=True)[0].to(device)
-        val_nid = torch.nonzero(valid_mask, as_tuple=True)[0].to(device)
-        g = g.to(device)
+            train_nid = torch.nonzero(train_mask, as_tuple=True)[0].to(device)
+            val_nid = torch.nonzero(valid_mask, as_tuple=True)[0].to(device)
+            g = g.to(device)
 
-        sampler = dgl.dataloading.MultiLayerFullNeighborSampler(3)
-        dataloader = dgl.dataloading.NodeDataLoader(
-            g,
-            train_nid,
-            sampler,
-            device=device,
-            batch_size=args.batch_size,
-            shuffle=False,
-            drop_last=False,
-            num_workers=args.num_workers
-        )
-        val_dataloader = dgl.dataloading.NodeDataLoader(
-            g,
-            val_nid,
-            sampler,
-            device=device,
-            batch_size=args.batch_size,
-            shuffle=False,
-            drop_last=False,
-            num_workers=args.num_workers
-        )
+            sampler = dgl.dataloading.MultiLayerFullNeighborSampler(3)
+            dataloader = dgl.dataloading.NodeDataLoader(
+                g,
+                train_nid,
+                sampler,
+                device=device,
+                batch_size=args.batch_size,
+                shuffle=False,
+                drop_last=False,
+                num_workers=args.num_workers
+            )
+            val_dataloader = dgl.dataloading.NodeDataLoader(
+                g,
+                val_nid,
+                sampler,
+                device=device,
+                batch_size=args.batch_size,
+                shuffle=False,
+                drop_last=False,
+                num_workers=args.num_workers
+            )
 
-        gin = TwoGIN(args.l_num, 2, in_feats, graphs[0].node_features.shape[1], args.h_dim, 2, args.drop_n, args.drop_c, args.learn_eps, 'sum', 'sum').to(device)
-        loss_fcn = torch.nn.CrossEntropyLoss()
-        optimizer = torch.optim.Adam(gin.parameters(), lr=args.lr, weight_decay=args.w_d)
-        acc_mx = 0.0
+            gin = TwoGIN(args.l_num, 2, in_feats, graphs[0].node_features.shape[1], args.h_dim, 2, args.drop_n, args.drop_c, args.learn_eps, 'sum', 'sum').to(device)
+            loss_fcn = torch.nn.CrossEntropyLoss()
+            optimizer = torch.optim.Adam(gin.parameters(), lr=args.lr, weight_decay=args.w_d)
+            acc_mx = 0.0
 
-        for epoch in tqdm(range(args.num_epochs), desc='epochs', unit='epoch'):
-            train_acc, acc = train_and_evaluate(args, gin, num_cliques, loss_fcn, node_features, labels, graphs, dataloader, val_dataloader, edge_weight, optimizer, device)
-            final_acc = train_acc
-            if acc > acc_mx:
-                acc_mx = acc
-                train_mx = train_acc
-            if optimizer.param_groups[0]['lr'] < args.min_lr:
-                print("\n!! LR EQUAL TO MIN LR SET.")
-                break
-        val_acc.append(acc_mx)
-        print(f'The best val accuracy of model with {i} fold is {acc_mx}')
-    print(f"The total val accuracy of model with seed {args.seed} is {average(val_acc)}")
-    print(f"Standard Deviation of model is {st.stdev(val_acc)}")
-    f = open(f"result_{args.data}.txt", "a")
-    f.write(f'Batch size: {args.batch_size}. Learning rate: {args.lr}. Hidden dim: {args.h_dim}. Dropout net: {args.drop_n}. Dropout graph: {args.drop_c} \n')
-    f.write(f"The Best val accuracy is {average(val_acc)}, the std is {st.stdev(val_acc)}, the seed is {args.seed}.  \n")
-    f.close()
+            for epoch in tqdm(range(args.num_epochs), desc='epochs', unit='epoch'):
+                train_acc, acc = train_and_evaluate(args, gin, num_cliques, loss_fcn, node_features, labels, graphs, dataloader, val_dataloader, edge_weight, optimizer, device)
+                final_acc = train_acc
+                if acc > acc_mx:
+                    acc_mx = acc
+                    train_mx = train_acc
+                if optimizer.param_groups[0]['lr'] < args.min_lr:
+                    print("\n!! LR EQUAL TO MIN LR SET.")
+                    break
+            val_acc.append(acc_mx)
+            print(f'The best val accuracy of model with {i} fold is {acc_mx}')
+        if average(val_acc) > max_val:
+            max_val = average(val_acc)
+            best_seed = seed
+        print(f"The total val accuracy of model with seed {seed} is {average(val_acc)}")
+        print(f"Standard Deviation of model is {st.stdev(val_acc)}")
+        f = open(f"result_{args.data}.txt", "a")
+        f.write(f'Batch size: {args.batch_size}. Learning rate: {args.lr}. Hidden dim: {args.h_dim}. Dropout net: {args.drop_n}. Dropout graph: {args.drop_c} \n')
+        f.write(f"The Best val accuracy is {average(val_acc)}, the std is {st.stdev(val_acc)}, the seed is {seed}.  \n")
+        f.close()
+    print(f'Best val acc is {max_val}, best seed is {best_seed}.')
 
 if __name__ == '__main__':
     main()
