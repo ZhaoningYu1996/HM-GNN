@@ -27,25 +27,25 @@ def get_args():
                         help='number of GNN message passing layers (default: 5)')
     parser.add_argument('--first_hidden_dim', type=int, default=300,
                         help='dimensionality of hidden units in GNNs (default: 300)')
-    parser.add_argument('--hidden_dim', type=int, default=16,
+    parser.add_argument('--hidden_dim', type=int, default=300,
                         help='dimensionality of hidden units in GNNs (default: 300)')
-    parser.add_argument('--first_graph_hidden_dim', type=int, default=64)
-    parser.add_argument('--batch_size', type=int, default=28000,
+    parser.add_argument('--first_graph_hidden_dim', type=int, default=300)
+    parser.add_argument('--batch_size', type=int, default=128,
                         help='input batch size for training (default: 32)')
     parser.add_argument('--num_workers', type=int, default=0,
                         help='number of workers (default: 0)')
-    parser.add_argument('--drop_ratio', type=float, default=0.9,
+    parser.add_argument('--drop_ratio', type=float, default=0.5,
                         help='dropout ratio (default: 0.5)')
     parser.add_argument('--dataset', type=str, default="ogbg-molhiv",
                         help='dataset name (default: ogbg-molhiv)')
     parser.add_argument('-seed', type=int, default=2, help='seed')
     parser.add_argument('-num_epochs', type=int, default=600, help='epochs')
-    parser.add_argument('-lr', type=float, default=0.01, help='learning rate')
+    parser.add_argument('-lr', type=float, default=0.001, help='learning rate')
     parser.add_argument('-w_d', type=float, default=0.0005, help='weight decay')
     parser.add_argument(
         '-learn_eps', action="store_true",
         help='learn the epsilon weighting')
-    parser.add_argument('-agg_method', type=str, default='mean', help='aggregation method')
+    parser.add_argument('-agg_method', type=str, default='add', help='aggregation method')
     parser.add_argument('-fanouts', type=list, default=[100, 9, 5], help='output nodes number')
     parser.add_argument('--lr_reduce_factor', type=float, default=0.5)
     parser.add_argument('--lr_schedule_patience', type=int, default=20)
@@ -157,7 +157,7 @@ def main():
     first_val_loader = DataLoader(dataset[valid_idx], batch_size=args.batch_size, shuffle=False)
     first_test_loader = DataLoader(dataset[test_idx], batch_size=args.batch_size, shuffle=False)
 
-    with open('ogb-molhiv', 'rb') as input_file:
+    with open('ogb-molhiv-8', 'rb') as input_file:
         g = pickle.load(input_file)
     num_cliques = int(g.number_of_nodes()) - len(dataset)
     print(num_cliques)

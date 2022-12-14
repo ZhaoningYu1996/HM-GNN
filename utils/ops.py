@@ -145,6 +145,7 @@ class GenGraph(object):
                 if count == 0:
                     edges.append(e)
             edges = list(set(edges))
+            print(edges)
 
             for e in edges:
                 weight = g_list[g].get_edge_data(e[0], e[1])['weight']

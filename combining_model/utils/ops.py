@@ -35,6 +35,7 @@ class Generator(object):
             mcb_tuple = [tuple(ele) for ele in mcb]
 
             edges = []
+            print(g_list[g])
             for e in g_list[g].edges:
                 count = 0
                 for c in mcb:
@@ -44,6 +45,7 @@ class Generator(object):
                 if count == 0:
                     edges.append(e)
             edges = list(set(edges))
+            
 
             for e in edges:
                 weight = g_list[g].get_edge_data(e[0], e[1])['weight']

@@ -42,9 +42,9 @@ class FileLoader(object):
         with open('dataset/%s/node_labels.txt' % (data), 'r') as f:
             nl = f.readlines()
         # print(nl[:10])
-        node_labels = [int(i[:-1]) for i in nl]
-        # print(node_labels[:208])
-        # print(stop)
+        node_labels = [int(i) for i in nl]
+        print(node_labels[:208])
+        print(stop)
         print("nodes_labels", len(node_labels))
 
         G_edges = []
