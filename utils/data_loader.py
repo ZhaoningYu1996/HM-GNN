@@ -43,8 +43,8 @@ class FileLoader(object):
             nl = f.readlines()
         # print(nl[:10])
         node_labels = [int(i) for i in nl]
-        print(node_labels[:208])
-        print(stop)
+        # print(node_labels[:208])
+        # print(stop)
         print("nodes_labels", len(node_labels))
 
         G_edges = []
